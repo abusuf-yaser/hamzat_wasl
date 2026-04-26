@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة همزة وصل</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#0f766e;
+  --primary2:#115e59;
+  --bg:#f1f5f9;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Tajawal',sans-serif;
+  background:linear-gradient(160deg,#0f766e,#134e4a);
+}
+
+.container{
+  max-width:420px;
+  margin:20px auto;
+  background:#fff;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
+}
+
+.logo img{
+  width:100px;
+  display:block;
+  margin:auto;
+}
+
+h2{
+  text-align:center;
+  margin:10px 0;
+}
+
+.note-top{
+  text-align:center;
+  font-size:13px;
+  color:#555;
+  margin-bottom:10px;
+}
+
+.card{
+  background:#f9fafb;
+  padding:12px;
+  border-radius:14px;
+  margin-bottom:12px;
+}
+
+.label{
+  font-weight:600;
+  margin-bottom:8px;
+  display:block;
+}
+
+/* buttons */
+.options{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.option{
+  padding:14px;
+  border:2px solid #e5e7eb;
+  border-radius:12px;
+  background:#fff;
+  cursor:pointer;
+  font-size:14px;
+  text-align:center;
+  transition:.2s;
+}
+
+.option.active{
+  border-color:var(--primary);
+  background:#e6fffa;
+  color:var(--primary2);
+  font-weight:600;
+}
+
+/* inputs */
+input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  background:#fff;
+  font-size:15px;
+}
+
+input:focus{
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:0 0 0 2px rgba(15,118,110,.2);
+}
+
+.min{
+  font-size:13px;
+  color:var(--primary);
+  margin-top:5px;
+}
+
+.error{
+  color:red;
+  font-size:13px;
+}
+
+/* button */
+button{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:#fff;
+  font-size:16px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+button:active{
+  transform:scale(.98);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+<img src="logo.png">
+</div>
+
+<h2>اختر الباقة</h2>
+
+<div class="note-top">
+🎁 حصة تجريبية مجانية قبل الاشتراك
+</div>
+
+<!-- نوع -->
+<div class="card">
+<div class="label">نوع الدرس</div>
+<div class="options">
+<div class="option" onclick="selectType('individual',this)">📚 فردي</div>
+<div class="option" onclick="selectType('group',this)">👥 جماعي</div>
+</div>
+</div>
+
+<!-- الخيارات -->
+<div class="card" id="optionsBox"></div>
+
+<!-- السعر -->
+<div class="card">
+<div class="label">💰 السعر المناسب لك</div>
+<input type="number" id="price" placeholder="أدخل السعر">
+<div class="min" id="minText"></div>
+<div class="error" id="errorText"></div>
+</div>
+
+<!-- الاسم -->
+<div class="card">
+<div class="label">الاسم</div>
+<input type="text" id="name">
+</div>
+
+<button onclick="send()">📩 إرسال الطلب</button>
+
+</div>
+
+<script>
+
+let type="", selected="", minPrice=0;
+
+function selectType(t, el){
+  type=t;
+
+  document.querySelectorAll(".option").forEach(o=>o.classList.remove("active"));
+  el.classList.add("active");
+
+  let box=document.getElementById("optionsBox");
+
+  if(t==="individual"){
+    box.innerHTML=`
+    <div class="label">عدد الحصص</div>
+    <div class="options">
+      ${opt("2 حصص",15)}
+      ${opt("4 حصص",30)}
+      ${opt("6 حصص",45)}
+      ${opt("8 حصص",60)}
+      ${opt("10 حصص",75)}
+      ${opt("12 حصة",90)}
+    </div>`;
+  }else{
+    box.innerHTML=`
+    <div class="label">نوع المجموعة</div>
+    <div class="options">
+      ${opt("3 طلاب",35)}
+      ${opt("5 طلاب",25)}
+    </div>`;
+  }
+}
+
+function opt(text,min){
+  return `<div class="option" onclick="selectOption('${text}',${min},this)">
+  ${text}
+  </div>`;
+}
+
+function selectOption(text,min,el){
+  selected=text;
+  minPrice=min;
+
+  document.querySelectorAll("#optionsBox .option").forEach(o=>o.classList.remove("active"));
+  el.classList.add("active");
+
+  document.getElementById("minText").innerText="الحد الأدنى: "+minPrice+"$";
+}
+
+function send(){
+  let price=document.getElementById("price").value;
+  let name=document.getElementById("name").value;
+
+  if(!type || !selected){
+    alert("اختر الباقة أولاً");
+    return;
+  }
+
+  if(!price || price < minPrice){
+    document.getElementById("errorText").innerText="⚠️ السعر أقل من الحد الأدنى";
+    return;
+  }
+
+  let msg=`طلب جديد:%0A
+الاسم: ${name}%0A
+النوع: ${type}%0A
+الخيار: ${selected}%0A
+السعر: ${price}$`;
+
+  window.open(`https://wa.me/905540205001?text=${msg}`);
+}
+</script>
+
+</body>
+</html>
