@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة همزة وصل</title>
+
+<style>
+body {
+    font-family: Tahoma;
+    background: linear-gradient(135deg, #0f766e, #134e4a);
+    margin: 0;
+}
+
+.container {
+    max-width: 420px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    width: 100px;
+}
+
+h2 {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.box {
+    margin: 12px 0;
+}
+
+select, input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: #0f766e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+button:active {
+    background: #0d5f59;
+}
+
+.hidden {
+    display: none;
+}
+
+.note {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.error {
+    color: red;
+    font-size: 13px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+    <img src="https://via.placeholder.com/100">
+    <h2>اختر الباقة</h2>
+</div>
+
+<div class="box">
+    <label>نوع الدرس</label>
+    <select id="type" onchange="changeType()">
+        <option value="">اختر</option>
+        <option value="individual">فردي</option>
+        <option value="group">جماعي</option>
+    </select>
+</div>
+
+<!-- فردي -->
+<div id="individualBox" class="hidden">
+
+<div class="box">
+<label>عدد الحصص</label>
+<select id="sessions" onchange="setMinPrice()">
+<option value="2" data-min="15">2 حصص</option>
+<option value="4" data-min="30">4 حصص</option>
+<option value="6" data-min="45">6 حصص</option>
+<option value="8" data-min="60">8 حصص</option>
+<option value="10" data-min="75">10 حصص</option>
+<option value="12" data-min="90">12 حصة</option>
+</select>
+</div>
+
+</div>
+
+<!-- جماعي -->
+<div id="groupBox" class="hidden">
+
+<div class="box">
+<label>نوع المجموعة</label>
+<select id="groupType" onchange="setMinPrice()">
+<option value="3 طلاب" data-min="35">3 طلاب</option>
+<option value="5 طلاب" data-min="25">5 طلاب</option>
+</select>
+</div>
+
+</div>
+
+<div class="box">
+<label>💰 السعر المناسب لك</label>
+<input type="number" id="price" placeholder="أدخل السعر">
+<div class="note" id="minText"></div>
+<div class="error" id="errorText"></div>
+</div>
+
+<div class="box">
+<label>الاسم</label>
+<input type="text" id="name">
+</div>
+
+<button onclick="sendWhatsApp()">📩 إرسال الطلب</button>
+
+</div>
+
+<script>
+
+let minPrice = 0;
+
+function changeType() {
+    let type = document.getElementById("type").value;
+
+    document.getElementById("individualBox").classList.add("hidden");
+    document.getElementById("groupBox").classList.add("hidden");
+
+    if (type === "individual") {
+        document.getElementById("individualBox").classList.remove("hidden");
+    } else if (type === "group") {
+        document.getElementById("groupBox").classList.remove("hidden");
+    }
+
+    setMinPrice();
+}
+
+function setMinPrice() {
+    let type = document.getElementById("type").value;
+
+    if (type === "individual") {
+        let select = document.getElementById("sessions");
+        minPrice = select.options[select.selectedIndex].dataset.min;
+    } else if (type === "group") {
+        let select = document.getElementById("groupType");
+        minPrice = select.options[select.selectedIndex].dataset.min;
+    }
+
+    document.getElementById("minText").innerText = "الحد الأدنى: " + minPrice + "$";
+}
+
+function sendWhatsApp() {
+    let price = document.getElementById("price").value;
+    let name = document.getElementById("name").value;
+    let type = document.getElementById("type").value;
+
+    if (!price || price < minPrice) {
+        document.getElementById("errorText").innerText = "⚠️ السعر أقل من الحد الأدنى";
+        return;
+    }
+
+    document.getElementById("errorText").innerText = "";
+
+    let sessions = document.getElementById("sessions")?.value || "";
+    let group = document.getElementById("groupType")?.value || "";
+
+    let message = `طلب جديد:%0A
+الاسم: ${name}%0A
+النوع: ${type}%0A
+عدد الحصص: ${sessions}%0A
+المجموعة: ${group}%0A
+السعر: ${price}$`;
+
+    let phone = "905XXXXXXXXX";
+    window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+}
+
+</script>
+
+</body>
+</html>
