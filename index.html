@@ -35,10 +35,24 @@ from{opacity:0; transform:translateY(20px);}
 to{opacity:1; transform:translateY(0);}
 }
 
+.logo img{
+width:90px;
+display:block;
+margin:auto;
+margin-bottom:10px;
+}
+
 h2{
 text-align:center;
-margin-bottom:20px;
+margin-bottom:10px;
 color:#064e3b;
+}
+
+.note{
+text-align:center;
+font-size:13px;
+color:#555;
+margin-bottom:15px;
 }
 
 .label{
@@ -47,7 +61,7 @@ font-weight:600;
 }
 
 input,select{
-width:100%;
+width:90%;
 padding:14px;
 margin-top:6px;
 border-radius:12px;
@@ -78,19 +92,16 @@ button:hover{
 background:#115e59;
 }
 
-.note{
-text-align:center;
-font-size:13px;
-color:#555;
-margin-bottom:10px;
-}
-
 </style>
 </head>
 
 <body>
 
 <div class="container">
+
+<div class="logo">
+<img src="logo.png">
+</div>
 
 <h2>📖 التسجيل في دورة التجويد</h2>
 
@@ -121,6 +132,7 @@ margin-bottom:10px;
 </div>
 
 <input type="number" id="price" placeholder="اكتب المبلغ الذي تريد">
+
 <button onclick="send()">📩 إرسال الطلب</button>
 
 </div>
