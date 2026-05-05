@@ -3,133 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>منصة همزة وصل</title>
+
+<title>التسجيل</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --primary:#0f766e;
-  --primary2:#115e59;
-  --bg:#f1f5f9;
-}
-
-*{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:'Tajawal',sans-serif;
-  background:linear-gradient(160deg,#0f766e,#134e4a);
+margin:0;
+font-family:'Tajawal';
+background:linear-gradient(135deg,#0f766e,#022c22);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 }
 
 .container{
-  max-width:420px;
-  margin:20px auto;
-  background:#fff;
-  border-radius:18px;
-  padding:18px;
-  box-shadow:0 20px 40px rgba(0,0,0,.25);
+width:100%;
+max-width:400px;
+background:#fff;
+padding:25px;
+border-radius:20px;
+box-shadow:0 25px 50px rgba(0,0,0,.3);
+animation:fade 0.6s ease;
 }
 
-.logo img{
-  width:100px;
-  display:block;
-  margin:auto;
+@keyframes fade{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
 }
 
 h2{
-  text-align:center;
-  margin:10px 0;
-}
-
-.note-top{
-  text-align:center;
-  font-size:13px;
-  color:#555;
-  margin-bottom:10px;
-}
-
-.card{
-  background:#f9fafb;
-  padding:12px;
-  border-radius:14px;
-  margin-bottom:12px;
+text-align:center;
+margin-bottom:20px;
+color:#064e3b;
 }
 
 .label{
-  font-weight:600;
-  margin-bottom:8px;
-  display:block;
+margin-top:12px;
+font-weight:600;
 }
 
-/* buttons */
-.options{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
+input,select{
+width:100%;
+padding:14px;
+margin-top:6px;
+border-radius:12px;
+border:1px solid #ddd;
+transition:.2s;
 }
 
-.option{
-  padding:14px;
-  border:2px solid #e5e7eb;
-  border-radius:12px;
-  background:#fff;
-  cursor:pointer;
-  font-size:14px;
-  text-align:center;
-  transition:.2s;
+input:focus,select:focus{
+border-color:#0f766e;
+outline:none;
+box-shadow:0 0 0 2px #99f6e4;
 }
 
-.option.active{
-  border-color:var(--primary);
-  background:#e6fffa;
-  color:var(--primary2);
-  font-weight:600;
-}
-
-/* inputs */
-input{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid #ddd;
-  background:#fff;
-  font-size:15px;
-}
-
-input:focus{
-  outline:none;
-  border-color:var(--primary);
-  box-shadow:0 0 0 2px rgba(15,118,110,.2);
-}
-
-.min{
-  font-size:13px;
-  color:var(--primary);
-  margin-top:5px;
-}
-
-.error{
-  color:red;
-  font-size:13px;
-}
-
-/* button */
 button{
-  width:100%;
-  padding:16px;
-  border:none;
-  border-radius:14px;
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-  color:#fff;
-  font-size:16px;
-  font-weight:bold;
-  margin-top:10px;
+margin-top:20px;
+width:100%;
+padding:15px;
+border:none;
+border-radius:14px;
+background:#0f766e;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:.2s;
 }
 
-button:active{
-  transform:scale(.98);
+button:hover{
+background:#115e59;
 }
+
+.note{
+text-align:center;
+font-size:13px;
+color:#555;
+margin-bottom:10px;
+}
+
 </style>
 </head>
 
@@ -137,117 +92,97 @@ button:active{
 
 <div class="container">
 
-<div class="logo">
-<img src="logo.png">
+<h2>📖 التسجيل في دورة التجويد</h2>
+
+<div class="note">
+املأ البيانات وسيتم التواصل معك قريباً
 </div>
 
-<h2>اختر الباقة</h2>
+<div class="label">الاسم *</div>
+<input id="name">
 
-<div class="note-top">
-🎁 حصة تجريبية مجانية قبل الاشتراك
+<div class="label">العمر *</div>
+<input id="age">
+
+<div class="label">رقم الهاتف *</div>
+<input id="phone">
+
+<div class="label">الجنس</div>
+<select id="gender">
+<option>ذكر</option>
+<option>أنثى</option>
+</select>
+
+<div class="label">
+🤍 اجعل لك نصيباً في هذا العلم
+<div style="font-size:13px;color:#555;margin-top:4px;">
+بمساهمة تناسبك وتنفع غيرك
+</div>
 </div>
 
-<!-- نوع -->
-<div class="card">
-<div class="label">نوع الدرس</div>
-<div class="options">
-<div class="option" onclick="selectType('individual',this)">📚 فردي</div>
-<div class="option" onclick="selectType('group',this)">👥 جماعي</div>
-</div>
-</div>
-
-<!-- الخيارات -->
-<div class="card" id="optionsBox"></div>
-
-<!-- السعر -->
-<div class="card">
-<div class="label">💰 السعر المناسب لك</div>
-<input type="number" id="price" placeholder="أدخل السعر">
-<div class="min" id="minText"></div>
-<div class="error" id="errorText"></div>
-</div>
-
-<!-- الاسم -->
-<div class="card">
-<div class="label">الاسم</div>
-<input type="text" id="name">
-</div>
-
+<input type="number" id="price" placeholder="اكتب المبلغ الذي تريد">
 <button onclick="send()">📩 إرسال الطلب</button>
 
 </div>
 
 <script>
 
-let type="", selected="", minPrice=0;
-
-function selectType(t, el){
-  type=t;
-
-  document.querySelectorAll(".option").forEach(o=>o.classList.remove("active"));
-  el.classList.add("active");
-
-  let box=document.getElementById("optionsBox");
-
-  if(t==="individual"){
-    box.innerHTML=`
-    <div class="label">عدد الحصص</div>
-    <div class="options">
-      ${opt("2 حصص",15)}
-      ${opt("4 حصص",30)}
-      ${opt("6 حصص",45)}
-      ${opt("8 حصص",60)}
-      ${opt("10 حصص",75)}
-      ${opt("12 حصة",90)}
-    </div>`;
-  }else{
-    box.innerHTML=`
-    <div class="label">نوع المجموعة</div>
-    <div class="options">
-      ${opt("3 طلاب",35)}
-      ${opt("5 طلاب",25)}
-    </div>`;
-  }
-}
-
-function opt(text,min){
-  return `<div class="option" onclick="selectOption('${text}',${min},this)">
-  ${text}
-  </div>`;
-}
-
-function selectOption(text,min,el){
-  selected=text;
-  minPrice=min;
-
-  document.querySelectorAll("#optionsBox .option").forEach(o=>o.classList.remove("active"));
-  el.classList.add("active");
-
-  document.getElementById("minText").innerText="الحد الأدنى: "+minPrice+"$";
-}
-
 function send(){
-  let price=document.getElementById("price").value;
-  let name=document.getElementById("name").value;
 
-  if(!type || !selected){
-    alert("اختر الباقة أولاً");
-    return;
-  }
+let name=document.getElementById("name").value.trim();
+let age=document.getElementById("age").value.trim();
+let phone=document.getElementById("phone").value.trim();
+let gender=document.getElementById("gender").value;
+let price=document.getElementById("price").value;
 
-  if(!price || price < minPrice){
-    document.getElementById("errorText").innerText="⚠️ السعر أقل من الحد الأدنى";
-    return;
-  }
+if(!name){alert("يرجى إدخال الاسم");return;}
+if(!age){alert("يرجى إدخال العمر");return;}
+if(!phone){alert("يرجى إدخال رقم الهاتف");return;}
 
-  let msg=`طلب جديد:%0A
-الاسم: ${name}%0A
-النوع: ${type}%0A
-الخيار: ${selected}%0A
-السعر: ${price}$`;
-
-  window.open(`https://wa.me/905540205001?text=${msg}`);
+let iframe = document.getElementById("hiddenFrame");
+if(!iframe){
+  iframe = document.createElement("iframe");
+  iframe.name = "hiddenFrame";
+  iframe.style.display = "none";
+  document.body.appendChild(iframe);
 }
+
+let form = document.createElement("form");
+form.method = "POST";
+form.target = "hiddenFrame";
+form.action = "https://script.google.com/macros/s/AKfycbyHfXsjZiLWaNiaorFGsYPslyttw1q9G5mWmjZ-agtE5vz5hGvGrukuHs_3-AyUqLI6/exec";
+
+let fields = {
+  name,
+  age,
+  phone,
+  gender,
+  subject: "تجويد",
+  price
+};
+
+for (let key in fields){
+  let input = document.createElement("input");
+  input.type = "hidden";
+  input.name = key;
+  input.value = fields[key];
+  form.appendChild(input);
+}
+
+document.body.appendChild(form);
+form.submit();
+
+setTimeout(()=>{ form.remove(); }, 500);
+
+document.querySelector(".container").innerHTML = `
+<div style="text-align:center; padding:30px;">
+<h2 style="color:#0f766e;">✅ تم التسجيل</h2>
+<p>سيتم التواصل معك قريباً 🤍</p>
+</div>
+`;
+
+}
+
 </script>
 
 </body>
