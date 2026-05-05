@@ -75,6 +75,13 @@ outline:none;
 box-shadow:0 0 0 2px #99f6e4;
 }
 
+.error{
+color:red;
+font-size:12px;
+display:none;
+margin-top:4px;
+}
+
 button{
 margin-top:20px;
 width:100%;
@@ -88,7 +95,12 @@ cursor:pointer;
 transition:.2s;
 }
 
-button:hover{
+button:disabled{
+background:#94a3b8;
+cursor:not-allowed;
+}
+
+button:hover:not(:disabled){
 background:#115e59;
 }
 
@@ -110,19 +122,24 @@ background:#115e59;
 </div>
 
 <div class="label">الاسم *</div>
-<input id="name">
+<input id="name" required>
+<div class="error" id="nameError">هذا الحقل مطلوب</div>
 
 <div class="label">العمر *</div>
-<input id="age">
+<input id="age" type="number" required>
+<div class="error" id="ageError">أدخل عمر صحيح</div>
 
 <div class="label">رقم الهاتف *</div>
-<input id="phone">
+<input id="phone" required>
+<div class="error" id="phoneError">أدخل رقم هاتف صحيح</div>
 
-<div class="label">الجنس</div>
-<select id="gender">
+<div class="label">الجنس *</div>
+<select id="gender" required>
+<option value="">اختر</option>
 <option>ذكر</option>
 <option>أنثى</option>
 </select>
+<div class="error" id="genderError">هذا الحقل مطلوب</div>
 
 <div class="label">
 🤍 اجعل لك نصيباً في هذا العلم
@@ -131,25 +148,84 @@ background:#115e59;
 </div>
 </div>
 
-<input type="number" id="price" placeholder="اكتب المبلغ الذي تريد">
+<input type="number" id="price" placeholder="اكتب المبلغ الذي تريد" required>
+<div class="error" id="priceError">أدخل مبلغ صحيح</div>
 
-<button onclick="send()">📩 إرسال الطلب</button>
+<button id="submitBtn" onclick="send()" disabled>📩 إرسال الطلب</button>
 
 </div>
 
 <script>
 
+let inputs = document.querySelectorAll("input, select");
+let button = document.getElementById("submitBtn");
+
+inputs.forEach(el=>{
+el.addEventListener("input", validateForm);
+});
+
+function validateForm(){
+
+let name = document.getElementById("name").value.trim();
+let age = document.getElementById("age").value;
+let phone = document.getElementById("phone").value.trim();
+let gender = document.getElementById("gender").value;
+let price = document.getElementById("price").value;
+
+let valid = true;
+
+// name
+if(!name){
+showError("nameError");
+valid = false;
+}else hideError("nameError");
+
+// age
+if(!age || age <= 0){
+showError("ageError");
+valid = false;
+}else hideError("ageError");
+
+// phone
+if(!phone || phone.length < 8){
+showError("phoneError");
+valid = false;
+}else hideError("phoneError");
+
+// gender
+if(!gender){
+showError("genderError");
+valid = false;
+}else hideError("genderError");
+
+// price
+if(!price || price <= 0){
+showError("priceError");
+valid = false;
+}else hideError("priceError");
+
+button.disabled = !valid;
+
+}
+
+function showError(id){
+document.getElementById(id).style.display = "block";
+}
+
+function hideError(id){
+document.getElementById(id).style.display = "none";
+}
+
 function send(){
+
+validateForm();
+if(button.disabled) return;
 
 let name=document.getElementById("name").value.trim();
 let age=document.getElementById("age").value.trim();
 let phone=document.getElementById("phone").value.trim();
 let gender=document.getElementById("gender").value;
 let price=document.getElementById("price").value;
-
-if(!name){alert("يرجى إدخال الاسم");return;}
-if(!age){alert("يرجى إدخال العمر");return;}
-if(!phone){alert("يرجى إدخال رقم الهاتف");return;}
 
 let iframe = document.getElementById("hiddenFrame");
 if(!iframe){
